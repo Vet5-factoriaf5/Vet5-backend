@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.model;
+package org.factoriaf5.happypaws.role;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,12 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rol {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String nombre; // Ejemplo: ADMIN, CLIENTE
+    private String name; // e.g. "ADMIN", "CLIENT"
 }
