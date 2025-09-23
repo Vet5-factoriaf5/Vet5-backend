@@ -10,15 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        System.out.println(">-------- " + user.getUsername());
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
@@ -26,7 +31,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getRoles()
                         .stream()
                         .map(role -> new SimpleGrantedAuthority(role.getName()))
-                        .collect(Collectors.toSet())
-        );
+                        .collect(Collectors.toSet()));
     }
 }
