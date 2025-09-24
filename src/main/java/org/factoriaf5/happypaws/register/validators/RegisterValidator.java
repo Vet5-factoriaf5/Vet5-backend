@@ -1,7 +1,9 @@
 package org.factoriaf5.happypaws.register.validators;
 
 import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
+import org.springframework.stereotype.Component; 
 
+@Component
 public class RegisterValidator {
 
     public void validate(RegisterDTORequest dto) {
