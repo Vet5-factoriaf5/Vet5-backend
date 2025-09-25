@@ -5,10 +5,10 @@ import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
 //import org.factoriaf5.happypaws.user.User;
 //import org.factoriaf5.happypaws.role.Role;
 
-//imports temporales
+// TODO:imports temporales
 import org.factoriaf5.happypaws.temp.User;
 import org.factoriaf5.happypaws.temp.Role;
-//fin imports temporales
+// FIXME:fin imports temporales
 
 import java.util.Set;
 
