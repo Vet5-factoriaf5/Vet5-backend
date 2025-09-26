@@ -6,6 +6,6 @@ import lombok.Builder;
 public record RegisterDTOResponse(
         String username,
         String fullName,
-        String phone,
-        String email
+        String email,
+        String phone
 ) {}
