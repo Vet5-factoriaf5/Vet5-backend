@@ -56,10 +56,10 @@ public class RegisterServiceImpl implements RegisterService {
 
         // Devolver respuesta completa (sin contraseña)
         return RegisterDTOResponse.builder()
+                .fullName(newUser.getFullName())
                 .username(newUser.getUsername())
-                // .fullName(newUser.getFullName())
-                // .phone(newUser.getPhone())
-                // .email(newUser.getEmail())
+                .email(newUser.getEmail())
+                .phone(newUser.getPhone())
                 .build();
     }
 }
