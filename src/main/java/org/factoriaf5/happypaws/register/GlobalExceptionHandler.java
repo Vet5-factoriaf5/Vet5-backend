@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.register.exceptions;
+package org.factoriaf5.happypaws.register;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

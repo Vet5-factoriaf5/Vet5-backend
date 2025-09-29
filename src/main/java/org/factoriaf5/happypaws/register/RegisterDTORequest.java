@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.register.dtos;
+package org.factoriaf5.happypaws.register;
 
 public record RegisterDTORequest(
         String fullName,        // Nombre completo

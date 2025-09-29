@@ -1,7 +1,5 @@
 package org.factoriaf5.happypaws.register;
 
-import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
-import org.factoriaf5.happypaws.register.validators.RegisterValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

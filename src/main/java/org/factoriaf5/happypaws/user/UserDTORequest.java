@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.user.dtos;
+package org.factoriaf5.happypaws.user;
 
 import lombok.*;
 

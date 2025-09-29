@@ -1,9 +1,7 @@
 package org.factoriaf5.happypaws.register;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
-import org.factoriaf5.happypaws.register.dtos.RegisterDTOResponse;
-import org.factoriaf5.happypaws.register.services.RegisterService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,8 @@ class RegisterControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    @MockBean
+    @SuppressWarnings("removal")
+@MockBean
     private RegisterService registerService;
 
     @Test

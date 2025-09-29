@@ -1,8 +1,5 @@
-package org.factoriaf5.happypaws.register.controllers;
+package org.factoriaf5.happypaws.register;
 
-import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
-import org.factoriaf5.happypaws.register.dtos.RegisterDTOResponse;
-import org.factoriaf5.happypaws.register.services.RegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

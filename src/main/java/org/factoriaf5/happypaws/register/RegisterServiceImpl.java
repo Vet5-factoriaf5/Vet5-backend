@@ -1,22 +1,10 @@
-package org.factoriaf5.happypaws.register.services;
+package org.factoriaf5.happypaws.register;
 
-import org.factoriaf5.happypaws.register.dtos.RegisterDTORequest;
-import org.factoriaf5.happypaws.register.dtos.RegisterDTOResponse;
-import org.factoriaf5.happypaws.register.exceptions.UserAlreadyExistsException;
-import org.factoriaf5.happypaws.register.mappers.RegisterMapper;
-import org.factoriaf5.happypaws.register.validators.RegisterValidator;
 //activar imports cuando tengamos creado user, role y repositorios autenticos 
-//import org.factoriaf5.happypaws.user.User;
-//import org.factoriaf5.happypaws.user.UserRepository;
-//import org.factoriaf5.happypaws.role.RoleRepository;
-//import org.factoriaf5.happypaws.role.Role;
-
-//imports temporales para que no de error
-import org.factoriaf5.happypaws.temp.User;
-import org.factoriaf5.happypaws.temp.Role;
-import org.factoriaf5.happypaws.temp.UserRepository;
-import org.factoriaf5.happypaws.temp.RoleRepository;
-//fin imports temporales
+import org.factoriaf5.happypaws.user.UserEntity;
+import org.factoriaf5.happypaws.user.UserRepository;
+import org.factoriaf5.happypaws.role.RoleRepository;
+import org.factoriaf5.happypaws.role.RoleEntity;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,20 +36,20 @@ public class RegisterServiceImpl implements RegisterService {
         validator.validate(dto);
 
         // Comprobar si el usuario ya existe
-        Optional<User> existingUser = userRepository.findByUsername(dto.username());
+        Optional<UserEntity> existingUser = userRepository.findByUsername(dto.username());
         if (existingUser.isPresent()) {
             throw new UserAlreadyExistsException(dto.username());
         }
 
         // Rol por defecto
-        Role clientRole = roleRepository.findByName("CLIENT")
+        RoleEntity clientRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Rol CLIENT no encontrado"));
 
         // Encriptar password
         String hashedPassword = passwordEncoder.encode(dto.password());
 
         // Mapear DTO → User
-        User newUser = RegisterMapper.dtoToEntity(dto, hashedPassword, clientRole);
+        UserEntity newUser = RegisterMapper.dtoToEntity(dto, hashedPassword, clientRole);
 
         // Guardar en BD
         userRepository.save(newUser);
@@ -69,9 +57,9 @@ public class RegisterServiceImpl implements RegisterService {
         // Devolver respuesta completa (sin contraseña)
         return RegisterDTOResponse.builder()
                 .username(newUser.getUsername())
-                .fullName(newUser.getFullName())
-                .phone(newUser.getPhone())
-                .email(newUser.getEmail())
+                // .fullName(newUser.getFullName())
+                // .phone(newUser.getPhone())
+                // .email(newUser.getEmail())
                 .build();
     }
 }

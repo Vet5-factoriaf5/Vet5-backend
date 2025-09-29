@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.register.exceptions;
+package org.factoriaf5.happypaws.register;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(String username) {

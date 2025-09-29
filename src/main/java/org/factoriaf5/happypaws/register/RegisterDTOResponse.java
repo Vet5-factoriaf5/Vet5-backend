@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.register.dtos;
+package org.factoriaf5.happypaws.register;
 
 import lombok.Builder;
 
