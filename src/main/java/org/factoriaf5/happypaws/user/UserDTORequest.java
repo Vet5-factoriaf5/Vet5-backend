@@ -13,6 +13,8 @@ public class UserDTORequest {
     private String username; // DNI/NIE
     private String email;
     private String phone;
+    private String password;
+    private String confirmPassword;
 
     // TODO: Añadir campos de mascotas cuando se requieran más adelante
     // private List<PetRequest> pets;
