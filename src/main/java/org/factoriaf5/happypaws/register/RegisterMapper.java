@@ -9,11 +9,11 @@ public class RegisterMapper {
     public static UserEntity dtoToEntity(RegisterDTORequest dto, String encodedPassword, RoleEntity defaultRole) {
         return new UserEntity(
                 null, // id autogenerado por la BD
-                dto.username(),
-                encodedPassword,
                 dto.fullName(),
-                dto.phone(),
+                dto.username(),
                 dto.email(), 
+                dto.phone(),
+                encodedPassword,            
                 encodedPassword, 
                 Set.of(defaultRole)
         );
