@@ -14,81 +14,76 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-        @Value("${api-endpoint}")
-        String endpoint;
+    @Value("${api-endpoint}")
+    String endpoint;
 
-        private JpaUserDetailsService jpaUserDetailsService;
+    private final JpaUserDetailsService jpaUserDetailsService;
 
-        public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService) {
-                this.jpaUserDetailsService = jpaUserDetailsService;
-        }
+    public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService) {
+        this.jpaUserDetailsService = jpaUserDetailsService;
+    }
 
-        @Bean
-        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                        .cors(withDefaults())
-                        .csrf(csrf -> csrf
-                                        .ignoringRequestMatchers("/h2-console/**")
-                                        .disable())
-                        .headers(header -> header
-                                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                        // Solo se permite que tu aplicación sea embebida en un <iframe> si el origen (dominio) es el mismo.
-                        .formLogin(form -> form.disable())
-                        .logout(out -> out
-                                .logoutUrl(endpoint + "/logout")
-                                .invalidateHttpSession(true)
-                                .deleteCookies("JSESSIONID"))
-                        .authorizeHttpRequests(auth -> auth
-                                        .requestMatchers("h2-console/**").permitAll()
-                                        .requestMatchers(endpoint + "/public").permitAll()
-                                        .requestMatchers(HttpMethod.GET, endpoint + "/private").hasRole("ADMIN")
-                                        //esto estaba comentado
-                                        .requestMatchers(HttpMethod.POST, endpoint +"/register").permitAll()
-                                        .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN") // principio de mínimos privilegios
-                                        .anyRequest().authenticated())
-                        .userDetailsService(jpaUserDetailsService)
-                        .httpBasic(withDefaults())
-                        .sessionManagement(session -> session
-                                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            // Habilita CORS usando la configuración definida en corsConfigurationSource()
+            .cors(withDefaults())
+            // Deshabilita CSRF para la consola H2 y otras pruebas
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/h2-console/**")
+                .disable())
+            // Permite que H2 console se muestre en iframe del mismo dominio
+            .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+            .formLogin(form -> form.disable())
+            .logout(out -> out
+                .logoutUrl(endpoint + "/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID"))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("h2-console/**").permitAll()
+                .requestMatchers(endpoint + "/public").permitAll()
+                .requestMatchers(HttpMethod.GET, endpoint + "/private").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
+                .requestMatchers(endpoint + "/login").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated())
+            .userDetailsService(jpaUserDetailsService)
+            .httpBasic(withDefaults())
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
-                // http.headers(header -> header.frameOptions(frame -> frame.sameOrigin()));
+        return http.build();
+    }
 
-                return http.build();
-        }
+    // Password encoder para almacenar contraseñas de forma segura (BCrypt)
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        /* 
-         * https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html
-         */
-        @Bean
-        PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+    // Configuración global de CORS para permitir que el frontend se comunique con el backend
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-        /* @Bean
-        public InMemoryUserDetailsManager userDetailsManager() {
+        // Cambia la URL si tu frontend corre en otro puerto o dominio
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true); // Necesario si usas cookies o auth headers
 
-                UserDetails mickey = User.builder()
-                                .username("mickey")
-                                .password("{noop}mouse")
-                                .roles("ADMIN")
-                                .build();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
 
-                UserDetails minnie = User.builder()
-                                .username("minnie")
-                                .password("{noop}mouse")
-                                .roles("USER")
-                                .build();
-
-                Collection<UserDetails> users = new ArrayList<>();
-                users.add(mickey);
-                users.add(minnie);
-
-                return new InMemoryUserDetailsManager(users);
-        } */
-
+        return source;
+    }
 }

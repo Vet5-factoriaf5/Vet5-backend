@@ -1,11 +1,7 @@
 package org.factoriaf5.happypaws.register;
 
-
 import org.factoriaf5.happypaws.user.UserEntity;
 import org.factoriaf5.happypaws.role.RoleEntity;
-
-
-
 import java.util.Set;
 
 public class RegisterMapper {
@@ -15,9 +11,10 @@ public class RegisterMapper {
                 null, // id autogenerado por la BD
                 dto.username(),
                 encodedPassword,
-           /*      dto.fullName(),
+                dto.fullName(),
                 dto.phone(),
-                dto.email(), */
+                dto.email(), 
+                encodedPassword, 
                 Set.of(defaultRole)
         );
     }
