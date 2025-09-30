@@ -25,7 +25,7 @@ public class PatientController {
         if (dto.name().isBlank())
             return ResponseEntity.badRequest().build();
 
-        PatientDTOResponse patientStored = patientService.createPatient(dto);
+        PatientDTOResponse patientStored = patientService.storeEntity(dto);
 
         if (patientStored == null)
             return ResponseEntity.noContent().build();

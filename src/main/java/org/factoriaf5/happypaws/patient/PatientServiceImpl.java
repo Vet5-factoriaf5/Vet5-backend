@@ -1,31 +1,47 @@
 package org.factoriaf5.happypaws.patient;
 
+import java.util.List;
+
+import org.factoriaf5.happypaws.implementations.IGenericService;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 import org.factoriaf5.happypaws.patient.mappers.PatientMapper;
 import org.factoriaf5.happypaws.user.UserEntity;
-import org.factoriaf5.happypaws.user.UserRepository;
+import org.factoriaf5.happypaws.user.UserService;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PatientServiceImpl {
+public class PatientServiceImpl implements IGenericService<PatientDTOResponse, PatientDTORequest> {
 
     private final PatientRepository repository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public PatientDTOResponse createPatient(PatientDTORequest dto) {
+    @Override
+    public List<PatientDTOResponse> getEntities() {
+        return repository.findAll()
+                .stream()
+                .map(PatientMapper::toDTO)
+                .toList();
+    }
 
-        // crear patiente
+    @Override
+    public PatientDTOResponse storeEntity(PatientDTORequest dto) {
+
         PatientEntity newPatient = PatientMapper.toEntity(dto);
-        // recuperar usuario
-        UserEntity user = userRepository.findById(dto.idUser()).orElseThrow();
-        //
+        UserEntity user = userService.getUserById(dto.idUser());
         newPatient.setTutor(user);
 
         PatientEntity savedPatient = repository.save(newPatient);
         return PatientMapper.toDTO(savedPatient);
+    }
+
+    @Override
+    public PatientDTOResponse showById(Long id) {
+        return repository.findById(id)
+                .map(PatientMapper::toDTO)
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
     }
 }
