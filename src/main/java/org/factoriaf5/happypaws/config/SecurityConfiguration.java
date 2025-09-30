@@ -35,7 +35,7 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             // Habilita CORS usando la configuración definida en corsConfigurationSource()
-            .cors(withDefaults())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             // Deshabilita CSRF para la consola H2 y otras pruebas
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")

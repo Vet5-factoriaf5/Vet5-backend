@@ -34,13 +34,23 @@ class RegisterServiceImplTest {
     @Test
     void testRegisterUser_success() {
         RegisterDTORequest dto = new RegisterDTORequest(
-                "12345678A", "Juan Perez", "600123456", "juan@mail.com", "pass123", "pass123"
+                "Juan Perez",     // fullName
+                "12345678A",      // username (DNI/NIE)
+                "juan@mail.com",  // email
+                "600123456",      // phone
+                "pass123",        // password
+                "pass123"         // confirmPassword
         );
 
         RoleEntity userRole = new RoleEntity();
+
         Mockito.when(userRepository.findByUsername(dto.username())).thenReturn(Optional.empty());
-        Mockito.when(roleRepository.findByName("CLIENT")).thenReturn(Optional.of(userRole));
+        Mockito.when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(userRole));
         Mockito.when(passwordEncoder.encode(dto.password())).thenReturn("hashedPass");
+
+        // 👇 Mock para que save() devuelva el mismo objeto que recibe
+        Mockito.when(userRepository.save(any(UserEntity.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
         RegisterDTOResponse response = service.registerUser(dto);
 
@@ -54,9 +64,16 @@ class RegisterServiceImplTest {
     @Test
     void testRegisterUser_userAlreadyExists_throwsException() {
         RegisterDTORequest dto = new RegisterDTORequest(
-                "12345678A", "Juan Perez", "600123456", "juan@mail.com", "pass123", "pass123"
+                "Juan Perez",
+                "12345678A",
+                "juan@mail.com",
+                "600123456",
+                "pass123",
+                "pass123"
         );
+
         Mockito.when(userRepository.findByUsername(dto.username())).thenReturn(Optional.of(new UserEntity()));
+
         assertThrows(UserAlreadyExistsException.class, () -> service.registerUser(dto));
     }
 }
