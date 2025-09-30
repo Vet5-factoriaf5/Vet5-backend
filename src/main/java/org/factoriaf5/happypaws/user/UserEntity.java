@@ -7,6 +7,7 @@ import org.factoriaf5.happypaws.role.RoleEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Transient;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +39,10 @@ public class UserEntity {
     private String email;
     private String phone;
     private String password;
+
+    @Transient                // 👈 no se guarda en la base de datos
     private String confirmPassword;
+   
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

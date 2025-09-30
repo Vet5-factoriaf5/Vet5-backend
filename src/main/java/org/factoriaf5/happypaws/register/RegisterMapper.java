@@ -7,15 +7,13 @@ import java.util.Set;
 public class RegisterMapper {
 
     public static UserEntity dtoToEntity(RegisterDTORequest dto, String encodedPassword, RoleEntity defaultRole) {
-        return new UserEntity(
-                null, // id autogenerado por la BD
-                dto.fullName(),
-                dto.username(),
-                dto.email(), 
-                dto.phone(),
-                encodedPassword,            
-                encodedPassword, 
-                Set.of(defaultRole)
-        );
+        return UserEntity.builder()
+                .fullName(dto.fullName())
+                .username(dto.username())
+                .email(dto.email())
+                .phone(dto.phone())
+                .password(encodedPassword) // solo guardamos la contraseña encriptada
+                .roles(Set.of(defaultRole))
+                .build();
     }
 }

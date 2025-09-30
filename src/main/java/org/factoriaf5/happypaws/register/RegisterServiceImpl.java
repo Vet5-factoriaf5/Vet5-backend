@@ -1,6 +1,5 @@
 package org.factoriaf5.happypaws.register;
 
-//activar imports cuando tengamos creado user, role y repositorios autenticos 
 import org.factoriaf5.happypaws.user.UserEntity;
 import org.factoriaf5.happypaws.user.UserRepository;
 import org.factoriaf5.happypaws.role.RoleRepository;
@@ -32,8 +31,13 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public RegisterDTOResponse registerUser(RegisterDTORequest dto) {
 
-        // Validar datos
+        // Validar datos básicos (ej: email, teléfono, etc.)
         validator.validate(dto);
+
+        // Validar contraseñas
+        if (!dto.password().equals(dto.confirmPassword())) {
+            throw new IllegalArgumentException("Las contraseñas no coinciden");
+        }
 
         // Comprobar si el usuario ya existe
         Optional<UserEntity> existingUser = userRepository.findByUsername(dto.username());
@@ -43,23 +47,24 @@ public class RegisterServiceImpl implements RegisterService {
 
         // Rol por defecto
         RoleEntity clientRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Rol CLIENT no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Rol USER no encontrado"));
 
         // Encriptar password
         String hashedPassword = passwordEncoder.encode(dto.password());
 
-        // Mapear DTO → User
+        // Mapear DTO → UserEntity
         UserEntity newUser = RegisterMapper.dtoToEntity(dto, hashedPassword, clientRole);
 
         // Guardar en BD
-        userRepository.save(newUser);
+        UserEntity savedUser = userRepository.save(newUser);
 
-        // Devolver respuesta completa (sin contraseña)
+        // Devolver respuesta (incluyendo el id generado)
         return RegisterDTOResponse.builder()
-                .fullName(newUser.getFullName())
-                .username(newUser.getUsername())
-                .email(newUser.getEmail())
-                .phone(newUser.getPhone())
+                .id(savedUser.getId()) // 👈 ahora se incluye el id
+                .fullName(savedUser.getFullName())
+                .username(savedUser.getUsername())
+                .email(savedUser.getEmail())
+                .phone(savedUser.getPhone())
                 .build();
     }
 }
