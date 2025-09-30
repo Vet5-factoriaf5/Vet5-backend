@@ -1,7 +1,5 @@
 package org.factoriaf5.happypaws.patient;
 
-import java.security.Principal;
-
 import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 import org.springframework.http.HttpStatus;
