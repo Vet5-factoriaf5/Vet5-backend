@@ -1,16 +1,9 @@
 package org.factoriaf5.happypaws.patient.dtos;
 
-import java.time.LocalDate;
-
-public record PatientDTORequest(String name,
-        LocalDate birthDate,
+public record PatientDTORequest(
+        String name,
+        int age,
         String breed,
         String gender,
-        String idNumber,
-        String tutorName,
-        String tutorEmail,
-        String tutorPhone
-// tutorUserId
-) {
-
+        Long idUser) {
 }

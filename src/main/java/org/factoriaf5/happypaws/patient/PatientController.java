@@ -1,5 +1,7 @@
 package org.factoriaf5.happypaws.patient;
 
+import java.security.Principal;
+
 import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/patients")
+@RequestMapping("${api-endpoint}/patients")
 @RequiredArgsConstructor
 public class PatientController {
     private final PatientServiceImpl patientService;
