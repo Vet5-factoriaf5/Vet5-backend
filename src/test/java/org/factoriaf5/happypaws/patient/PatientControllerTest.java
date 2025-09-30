@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
 import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
+import org.factoriaf5.happypaws.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class PatientControllerTest {
 
         @MockitoBean
         private PatientServiceImpl patientService;
+
+        @MockitoBean
+        private UserService userService;
 
         @Autowired
         private ObjectMapper mapper;
@@ -49,7 +53,7 @@ public class PatientControllerTest {
                 PatientDTORequest dto = new PatientDTORequest("bobi", 0, "Labrador", "Female", 123L);
                 String json = mapper.writeValueAsString(dto);
 
-                when(patientService.createPatient(dto)).thenReturn(null);
+                when(userService.getUserById(dto.idUser())).thenReturn(null);
 
                 mockMvc.perform(post("/v1/patients")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +70,7 @@ public class PatientControllerTest {
                 PatientDTOResponse response = new PatientDTOResponse(1L, "Bobby", 0, "Labrador", "Female",
                                 LocalDateTime.now(), LocalDateTime.now());
 
-                when(patientService.createPatient(dto)).thenReturn(response);
+                when(patientService.storeEntity(dto)).thenReturn(response);
                 mockMvc.perform(post("/v1/patients")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
