@@ -2,17 +2,18 @@ package org.factoriaf5.happypaws.appointment;
 
 import java.util.List;
 
+
 public interface AppointmentService {
 
-    List<AppointmentEntity> getAllAppointments();
+    AppointmentResponseDTO create(AppointmentRequestDTO dto);
 
-    List<AppointmentEntity> getAppointmentsByUser(Long idUser);
+    AppointmentResponseDTO update(Long id, AppointmentRequestDTO dto);
 
-    AppointmentEntity createAppointment(AppointmentEntity appointment);
+    void delete(Long id);
 
-    AppointmentEntity updateAppointment(Long id, AppointmentEntity appointment);
+    AppointmentResponseDTO getById(Long id);
 
-    void deleteAppointment(Long id);
+    List<AppointmentResponseDTO> getAll();
 
-    void markPastAppointments();
+    List<AppointmentResponseDTO> getByPatient(Long patientId);
 }

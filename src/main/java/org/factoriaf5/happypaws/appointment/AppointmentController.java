@@ -1,9 +1,19 @@
 package org.factoriaf5.happypaws.appointment;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+/** Endpoints:
+ *  - POST /appointments
+ *  - GET /appointments
+ *  - GET /appointments/{id}
+ *  - GET /appointments/patient/{patientId}
+ *  - PUT /appointments/{id}
+ *  - DELETE /appointments/{id}
+ */
 @RestController
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
@@ -11,28 +21,34 @@ public class AppointmentController {
 
     private final AppointmentService service;
 
-    @GetMapping("/all")
-    public List<AppointmentEntity> getAllAppointments() {
-        return service.getAllAppointments(); // Admin
-    }
-
-    @GetMapping("/my")
-    public List<AppointmentEntity> getMyAppointments(@RequestParam Long idUser) {
-        return service.getAppointmentsByUser(idUser); // Cliente
-    }
-
     @PostMapping
-    public AppointmentEntity createAppointment(@RequestBody AppointmentEntity appointment) {
-        return service.createAppointment(appointment);
+    public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO dto) {
+        return ResponseEntity.ok(service.create(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AppointmentResponseDTO>> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentResponseDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<AppointmentResponseDTO>> getByPatient(@PathVariable Long patientId) {
+        return ResponseEntity.ok(service.getByPatient(patientId));
     }
 
     @PutMapping("/{id}")
-    public AppointmentEntity updateAppointment(@PathVariable Long id, @RequestBody AppointmentEntity appointment) {
-        return service.updateAppointment(id, appointment);
+    public ResponseEntity<AppointmentResponseDTO> update(@PathVariable Long id, @RequestBody AppointmentRequestDTO dto) {
+        return ResponseEntity.ok(service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAppointment(@PathVariable Long id) {
-        service.deleteAppointment(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

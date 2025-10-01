@@ -16,7 +16,7 @@ public class UserDTORequest {
     private String password;
     private String confirmPassword;
 
-    // TODO: Añadir campos de mascotas cuando se requieran más adelante
-    // private List<PetRequest> pets;
+    // TODO: Añadir campos de pacientes cuando se requieran más adelante
+    // private List<PatientRequest> patients;
 
 }

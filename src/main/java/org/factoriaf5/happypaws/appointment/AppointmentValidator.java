@@ -1,20 +1,19 @@
 package org.factoriaf5.happypaws.appointment;
 
-import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
-@Component
+
 public class AppointmentValidator {
 
-    public void validate(AppointmentEntity appointment) {
-        if (appointment.getDateTime() == null || appointment.getDateTime().isBefore(LocalDateTime.now())) {
-            throw AppointmentException.InvalidAppointmentDate();
+    public static void validate(AppointmentEntity appointment) {
+        if (appointment.getDateTime() == null) {
+            throw new AppointmentException("La fecha no puede estar vacía");
         }
-        if (appointment.getPatient() == null) {
-            throw new AppointmentException("Paciente es obligatorio");
+        if (appointment.getDateTime().isBefore(LocalDateTime.now())) {
+            throw new AppointmentException("La fecha debe ser futura");
         }
         if (appointment.getReason() == null || appointment.getReason().isBlank()) {
-            throw new AppointmentException("Motivo de la cita es obligatorio");
+            throw new AppointmentException("El motivo es obligatorio");
         }
     }
 }

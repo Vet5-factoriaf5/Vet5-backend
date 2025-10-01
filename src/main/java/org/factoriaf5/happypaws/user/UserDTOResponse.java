@@ -16,7 +16,7 @@ public class UserDTOResponse {
     private String email;
     private String phone;
 
-    // TODO: Añadir información de mascotas y citas cuando se requieran más adelante
-    // private List<PetResponse> pets;
+    // TODO: Añadir información de pacientes y citas cuando se requieran más adelante
+    // private List<PatientsResponse> patients;
     // private List<AppointmentResponse> appointments;
 }
