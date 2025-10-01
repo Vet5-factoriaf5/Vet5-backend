@@ -1,10 +1,11 @@
 package org.factoriaf5.happypaws.appointment;
-//TODO: Ruta temporal cambiar por la entidad real cuando Yely la suba
+
+// TODO: Ruta temporal, cambiar por la entidad real cuando esté lista
 import org.factoriaf5.happypaws.temp.Patient;
 import org.springframework.stereotype.Component;
 
-// TODO: mientras PatientEntity real no exista, usamos un "patient fantasma" con solo el ID.
-
+// Mapper encargado de convertir entre DTOs y Entidad JPA
+// NOTA: ahora mismo usamos un Patient temporal con sólo el ID hasta que yely suba el patient real
 @Component
 public class AppointmentMapper {
 

@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// Contiene validaciones de negocio: Máximo 10 citas por día, evitar colisiones en horas
+// Contiene lógica de negocio para la gestión de citas
+// Incluye: validaciones, control de máximo diario, colisiones horarias, envío de emails
 @Service
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
@@ -20,7 +21,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository repository;
     private final AppointmentMapper mapper;
     private final JavaMailSender mailSender;
-    private final UserRepository userRepository; // Para obtener email real del usuario
+    private final UserRepository userRepository; // Para obtener el email real del usuario
 
     private static final int MAX_APPOINTMENTS_PER_DAY = 10;
 
@@ -31,14 +32,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         // Validaciones de objeto (fecha futura, motivo no vacío, etc.)
         AppointmentValidator.validate(entity);
 
-        // Validaciones que dependen de la BD
+        // Validación de máximo de citas por día
         LocalDate date = entity.getDateTime().toLocalDate();
         long count = repository.findByDateTimeBetween(date.atStartOfDay(), date.plusDays(1).atStartOfDay()).size();
         if (count >= MAX_APPOINTMENTS_PER_DAY) {
             throw new AppointmentException("Se alcanzó el máximo de citas para este día");
         }
 
-        // Evitar colisión exacta en hora
+        // Validación de colisión exacta en la misma hora
         LocalDateTime slot = entity.getDateTime();
         boolean exists = repository.findByDateTimeBetween(slot, slot.plusMinutes(59)).size() > 0;
         if (exists) {
@@ -49,17 +50,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // ------------------ ENVÍO DE EMAIL ------------------
         try {
-            // Obtenemos el email del usuario desde la tabla Users
+            // Obtenemos el usuario desde la BD
             UserEntity user = userRepository.findById(dto.getUserId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             String email = user.getEmail();
 
+            // Creamos el mensaje de confirmación
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email); // Aquí usamos el email real del usuario
-            message.setSubject("Confirmación de cita");
-            message.setText("Hola " + user.getFullName() + ", tu cita ha sido registrada para el "
-                    + entity.getDateTime() + ". Motivo: " + entity.getReason());
+            message.setSubject("Confirmación de cita en HappyPaws");
+            message.setText("Hola " + user.getFullName() + ",\n\n" +
+                    "Tu cita ha sido registrada para el " + entity.getDateTime() +
+                    ".\nMotivo: " + entity.getReason() + "\n\n" +
+                    "Gracias por confiar en HappyPaws.");
 
+            // Enviamos el email
             mailSender.send(message);
 
         } catch (Exception e) {

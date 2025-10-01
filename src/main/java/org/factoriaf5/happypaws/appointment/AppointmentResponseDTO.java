@@ -3,7 +3,8 @@ package org.factoriaf5.happypaws.appointment;
 import lombok.*;
 import java.time.LocalDateTime;
 
-// devolvemos patientId en lugar de un objeto completo para simplificar la API
+// DTO que devolvemos al frontend tras crear/consultar citas
+// Usamos patientId para no acoplar a la entidad Patient completa todavía
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
