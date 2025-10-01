@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppointmentRequestDTO {
+public class AppointmentDTORequest {
 
     private Long patientId;       // ID del paciente asociado a la cita (temporal)
     private Long userId;          // ID del usuario dueño de la cita → lo necesitamos para enviar el email

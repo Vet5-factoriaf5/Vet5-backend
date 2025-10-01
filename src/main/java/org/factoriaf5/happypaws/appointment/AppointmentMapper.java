@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class AppointmentMapper {
 
     // Convierte DTO a entidad JPA
-    public AppointmentEntity toEntity(AppointmentRequestDTO dto) {
+    public AppointmentEntity toEntity(AppointmentDTORequest dto) {
         Patient patient = new Patient();
         patient.setId(dto.getPatientId()); 
         // TODO: cuando tengamos PatientEntity real → usar patientRepository.findById(dto.getPatientId())
@@ -25,8 +25,8 @@ public class AppointmentMapper {
     }
 
     // Convierte entidad JPA a DTO
-    public AppointmentResponseDTO toDTO(AppointmentEntity entity) {
-        return AppointmentResponseDTO.builder()
+    public AppointmentDTOResponse toDTO(AppointmentEntity entity) {
+        return AppointmentDTOResponse.builder()
                 .id(entity.getId())
                 .patientId(entity.getPatient().getId()) // devolvemos solo el id del paciente
                 .dateTime(entity.getDateTime())

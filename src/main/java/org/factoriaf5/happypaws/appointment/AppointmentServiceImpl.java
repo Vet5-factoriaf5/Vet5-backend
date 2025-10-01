@@ -26,7 +26,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private static final int MAX_APPOINTMENTS_PER_DAY = 10;
 
     @Override
-    public AppointmentResponseDTO create(AppointmentRequestDTO dto) {
+    public AppointmentDTOResponse create(AppointmentDTORequest dto) {
         AppointmentEntity entity = mapper.toEntity(dto);
 
         // Validaciones de objeto (fecha futura, motivo no vacío, etc.)
@@ -76,7 +76,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentResponseDTO update(Long id, AppointmentRequestDTO dto) {
+    public AppointmentDTOResponse update(Long id, AppointmentDTORequest dto) {
         AppointmentEntity existing = repository.findById(id)
                 .orElseThrow(() -> new AppointmentException("Cita no encontrada"));
 
@@ -99,21 +99,21 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentResponseDTO getById(Long id) {
+    public AppointmentDTOResponse getById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new AppointmentException("Cita no encontrada"));
     }
 
     @Override
-    public List<AppointmentResponseDTO> getAll() {
+    public List<AppointmentDTOResponse> getAll() {
         return repository.findAll().stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AppointmentResponseDTO> getByPatient(Long patientId) {
+    public List<AppointmentDTOResponse> getByPatient(Long patientId) {
         return repository.findByPatient_Id(patientId).stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());

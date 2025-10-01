@@ -22,27 +22,27 @@ public class AppointmentController {
     private final AppointmentService service;
 
     @PostMapping
-    public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO dto) {
+    public ResponseEntity<AppointmentDTOResponse> create(@RequestBody AppointmentDTORequest dto) {
         return ResponseEntity.ok(service.create(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<AppointmentResponseDTO>> getAll() {
+    public ResponseEntity<List<AppointmentDTOResponse>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppointmentResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<AppointmentDTOResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<AppointmentResponseDTO>> getByPatient(@PathVariable Long patientId) {
+    public ResponseEntity<List<AppointmentDTOResponse>> getByPatient(@PathVariable Long patientId) {
         return ResponseEntity.ok(service.getByPatient(patientId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppointmentResponseDTO> update(@PathVariable Long id, @RequestBody AppointmentRequestDTO dto) {
+    public ResponseEntity<AppointmentDTOResponse> update(@PathVariable Long id, @RequestBody AppointmentDTORequest dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
 

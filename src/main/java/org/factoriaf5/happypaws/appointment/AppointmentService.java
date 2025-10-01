@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    AppointmentResponseDTO create(AppointmentRequestDTO dto);
+    AppointmentDTOResponse create(AppointmentDTORequest dto);
 
-    AppointmentResponseDTO update(Long id, AppointmentRequestDTO dto);
+    AppointmentDTOResponse update(Long id, AppointmentDTORequest dto);
 
     void delete(Long id);
 
-    AppointmentResponseDTO getById(Long id);
+    AppointmentDTOResponse getById(Long id);
 
-    List<AppointmentResponseDTO> getAll();
+    List<AppointmentDTOResponse> getAll();
 
-    List<AppointmentResponseDTO> getByPatient(Long patientId);
+    List<AppointmentDTOResponse> getByPatient(Long patientId);
 }
