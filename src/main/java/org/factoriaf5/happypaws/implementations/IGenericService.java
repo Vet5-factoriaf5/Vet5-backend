@@ -10,4 +10,8 @@ public interface IGenericService<T, S> {
 
     public T showById(Long id);
 
+    T update(Long id, S dto);
+
+    void delete(Long id);
+
 }

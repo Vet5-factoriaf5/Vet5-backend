@@ -44,4 +44,28 @@ public class PatientServiceImpl implements IGenericService<PatientDTOResponse, P
                 .map(PatientMapper::toDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
     }
+
+    @Override
+    public PatientDTOResponse update(Long id, PatientDTORequest dto) {
+        PatientEntity existing = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
+
+        existing.setName(dto.name());
+        existing.setAge(dto.age());
+        existing.setBreed(dto.breed());
+        existing.setGender(dto.gender());
+
+        UserEntity user = userService.getUserById(dto.idUser());
+        existing.setTutor(user);
+
+        PatientEntity updated = repository.save(existing);
+        return PatientMapper.toDTO(updated);
+    }
+
+    @Override
+    public void delete(Long id) {
+        PatientEntity existing = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
+        repository.delete(existing);
+    }
 }

@@ -1,7 +1,12 @@
 package org.factoriaf5.happypaws.patient;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.time.LocalDateTime;
@@ -82,5 +87,31 @@ public class PatientControllerTest {
                                 .andExpect(jsonPath("$.gender").value(response.gender()))
                                 .andExpect(jsonPath("$.createdAt").exists())
                                 .andExpect(jsonPath("$.updatedAt").exists());
+        }
+
+        @Test
+        @DisplayName("Should update patient successfully")
+        void testUpdatePatient() throws Exception {
+                PatientDTORequest dto = new PatientDTORequest("Bobby", 6, "Labrador", "Male", 123L);
+                PatientDTOResponse response = new PatientDTOResponse(1L, "Bobby", 6, "Labrador", "Male",
+                                LocalDateTime.now(), LocalDateTime.now());
+
+                when(patientService.update(eq(1L), any(PatientDTORequest.class))).thenReturn(response);
+
+                mockMvc.perform(put("/v1/patients/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(dto)))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value(1L))
+                                .andExpect(jsonPath("$.name").value("Bobby"));
+        }
+
+        @Test
+        @DisplayName("Should delete patient successfully")
+        void testDeletePatient() throws Exception {
+                mockMvc.perform(delete("/v1/patients/1"))
+                                .andExpect(status().isNoContent());
+
+                verify(patientService).delete(1L);
         }
 }
