@@ -1,8 +1,8 @@
 package org.factoriaf5.happypaws.treatment;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -23,8 +23,8 @@ public class TreatmentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TreatmentDTOResponse> updateTreatment(@PathVariable Long id,
-       @Valid @RequestBody TreatmentDTORequest dto) {
-       return ResponseEntity.ok(treatmentService.updateTreatment(id, dto));
+                                                                @Valid @RequestBody TreatmentDTORequest dto) {
+        return ResponseEntity.ok(treatmentService.updateTreatment(id, dto));
     }
 
     @DeleteMapping("/{id}")
@@ -42,7 +42,7 @@ public class TreatmentController {
     public ResponseEntity<List<TreatmentDTOResponse>> getTreatmentsByPatient(@PathVariable Long patientId) {
         return ResponseEntity.ok(treatmentService.getTreatmentsByPatient(patientId));
     }
-
+    
     @GetMapping
     public ResponseEntity<List<TreatmentDTOResponse>> getAllTreatments() {
         return ResponseEntity.ok(treatmentService.getAllTreatments());
