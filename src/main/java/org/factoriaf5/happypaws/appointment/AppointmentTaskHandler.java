@@ -27,11 +27,11 @@ public class AppointmentTaskHandler {
         repository.findAll().forEach(appointment -> {
             if (appointment.getStatus() == AppointmentStatus.PENDING &&
                 appointment.getDateTime().isBefore(now)) {
-                appointment.setStatus(AppointmentStatus.COMPLETED);
+                appointment.setStatus(AppointmentStatus.MISSED);
                 repository.save(appointment);
             }
 
-            if (appointment.getStatus() == AppointmentStatus.COMPLETED &&
+            if (appointment.getStatus() == AppointmentStatus.MISSED &&
                 appointment.getDateTime().isBefore(now.minusMonths(3))) {
                 repository.delete(appointment);
             }
