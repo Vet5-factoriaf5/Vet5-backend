@@ -1,19 +1,14 @@
 package org.factoriaf5.happypaws.treatment;
 
 import lombok.RequiredArgsConstructor;
-import org.factoriaf5.happypaws.treatment.TreatmentDTORequest;
-import org.factoriaf5.happypaws.treatment.TreatmentDTOResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.val;
+
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
 
-/**
- * Controller REST para Treatment.
- * Define endpoints para CRUD y consultas por paciente.
- */
+
 @RestController
 @RequestMapping("/treatments")
 @RequiredArgsConstructor

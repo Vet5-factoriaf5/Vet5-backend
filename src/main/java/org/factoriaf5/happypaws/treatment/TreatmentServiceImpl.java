@@ -3,18 +3,12 @@ package org.factoriaf5.happypaws.treatment;
 import lombok.RequiredArgsConstructor;
 import org.factoriaf5.happypaws.temp.Patient;
 import org.factoriaf5.happypaws.temp.PatientRepository;
-import org.factoriaf5.happypaws.treatment.TreatmentDTORequest;
-import org.factoriaf5.happypaws.treatment.TreatmentDTOResponse;
-import org.factoriaf5.happypaws.treatment.TreatmentException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Implementación del servicio de Treatment.
- * Contiene toda la lógica de negocio: validación, búsqueda, CRUD.
- */
+
 @Service
 @RequiredArgsConstructor
 public class TreatmentServiceImpl implements TreatmentService {
@@ -28,7 +22,7 @@ public class TreatmentServiceImpl implements TreatmentService {
     public TreatmentDTOResponse createTreatment(TreatmentDTORequest dto) {
         validator.validate(dto); // validar reglas de negocio
         Patient patient = patientRepository.findById(dto.getPatientId())
-                .orElseThrow(() -> new TreatmentNotFoundException("Paciente no encontrado"));
+                .orElseThrow(() -> new TreatmentException("Paciente no encontrado"));
         Treatment treatment = mapper.toEntity(dto, patient);
         return mapper.toDTO(treatmentRepository.save(treatment));
     }
@@ -37,9 +31,9 @@ public class TreatmentServiceImpl implements TreatmentService {
     public TreatmentDTOResponse updateTreatment(Long id, TreatmentDTORequest dto) {
         validator.validate(dto);
         Treatment treatment = treatmentRepository.findById(id)
-                .orElseThrow(() -> new TreatmenException("Tratamiento no encontrado"));
+                .orElseThrow(() -> new TreatmentException("Tratamiento no encontrado"));
         Patient patient = patientRepository.findById(dto.getPatientId())
-                .orElseThrow(() -> new TreatmentNotFoundException("Paciente no encontrado"));
+                .orElseThrow(() -> new TreatmentException("Paciente no encontrado"));
         treatment.setDescription(dto.getDescription());
         treatment.setTreatmentDate(dto.getTreatmentDate());
         treatment.setPatient(patient);

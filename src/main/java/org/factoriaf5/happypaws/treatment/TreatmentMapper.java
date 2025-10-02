@@ -1,7 +1,5 @@
 package org.factoriaf5.happypaws.treatment;
 
-import org.factoriaf5.happypaws.treatment.TreatmentDTORequest;
-import org.factoriaf5.happypaws.treatment.TreatmentDTOResponse;
 import org.springframework.stereotype.Component;
 import org.factoriaf5.happypaws.temp.Patient;
 

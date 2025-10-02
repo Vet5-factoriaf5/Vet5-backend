@@ -6,10 +6,8 @@ import org.factoriaf5.happypaws.temp.Patient;
 
 import java.time.LocalDate;
 
-/**
- * Entidad Treatment: representa un tratamiento efectuado a un paciente.
- * Relación ManyToOne con Patient. Contiene descripción y fecha del tratamiento.
- */
+// Relación ManyToOne con Patient. Contiene descripción y fecha del tratamiento.
+
 @Data
 @Entity
 public class Treatment {
