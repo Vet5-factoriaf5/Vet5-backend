@@ -1,7 +1,7 @@
-package org.factoriaf5.happypaws.config;
+package org.factoriaf5.happypaws.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-import org.factoriaf5.happypaws.security.JpaUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers(endpoint + "/public").permitAll()
                 .requestMatchers(HttpMethod.GET, endpoint + "/private").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
