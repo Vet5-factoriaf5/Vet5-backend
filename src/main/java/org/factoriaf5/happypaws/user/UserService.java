@@ -2,17 +2,21 @@ package org.factoriaf5.happypaws.user;
 
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
-    
-    private final UserRepository userRepository;
+import lombok.RequiredArgsConstructor;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
 
     public UserEntity save(UserEntity user) {
         return userRepository.save(user);
+    }
+
+    public UserEntity getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
 }
