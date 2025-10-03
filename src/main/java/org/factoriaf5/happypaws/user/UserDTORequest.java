@@ -1,6 +1,7 @@
 package org.factoriaf5.happypaws.user;
 
 import lombok.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +17,6 @@ public class UserDTORequest {
     private String password;
     private String confirmPassword;
 
-    // TODO: Añadir campos de mascotas cuando se requieran más adelante
-    // private List<PetRequest> pets;
-
+    // Lista de pacientes asociados al usuario (ids)
+    private List<Long> patientIds;
 }

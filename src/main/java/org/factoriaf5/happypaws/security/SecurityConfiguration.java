@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers(endpoint + "/public").permitAll()
                 .requestMatchers(HttpMethod.GET, endpoint + "/private").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
