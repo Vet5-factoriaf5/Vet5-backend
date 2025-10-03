@@ -1,13 +1,11 @@
 package org.factoriaf5.happypaws.treatment;
 
 import org.springframework.stereotype.Component;
-import org.factoriaf5.happypaws.temp.Patient;
-
 
 @Component
 public class TreatmentMapper {
 
-    public Treatment toEntity(TreatmentDTORequest dto, Patient patient) {
+    public Treatment toEntity(TreatmentDTORequest dto, org.factoriaf5.happypaws.patient.PatientEntity patient) {
         Treatment treatment = new Treatment();
         treatment.setPatient(patient);
         treatment.setDescription(dto.getDescription());

@@ -2,7 +2,7 @@ package org.factoriaf5.happypaws.treatment;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.factoriaf5.happypaws.temp.Patient;
+import org.factoriaf5.happypaws.patient.PatientEntity;
 
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ public class Treatment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
+    private PatientEntity patient;
 
     @Column(nullable = false)
     private String description; // descripción del tratamiento

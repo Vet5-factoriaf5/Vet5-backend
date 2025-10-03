@@ -1,7 +1,7 @@
 package org.factoriaf5.happypaws.user;
 
 import lombok.*;
-
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +16,6 @@ public class UserDTOResponse {
     private String email;
     private String phone;
 
-    // TODO: Añadir información de pacientes y citas cuando se requieran más adelante
-    // private List<PatientsResponse> patients;
-    // private List<AppointmentResponse> appointments;
+    // Devolvemos solo los ids de pacientes asociados
+    private List<Long> patientIds;
 }

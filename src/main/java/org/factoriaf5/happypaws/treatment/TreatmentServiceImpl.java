@@ -1,8 +1,8 @@
 package org.factoriaf5.happypaws.treatment;
 
 import lombok.RequiredArgsConstructor;
-import org.factoriaf5.happypaws.temp.Patient;
-import org.factoriaf5.happypaws.temp.PatientRepository;
+import org.factoriaf5.happypaws.patient.PatientEntity;
+import org.factoriaf5.happypaws.patient.PatientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class TreatmentServiceImpl implements TreatmentService {
     @Override
     public TreatmentDTOResponse createTreatment(TreatmentDTORequest dto) {
         validator.validate(dto); // validar reglas de negocio
-        Patient patient = patientRepository.findById(dto.getPatientId())
+        PatientEntity patient = patientRepository.findById(dto.getPatientId())
                 .orElseThrow(() -> new TreatmentException("Paciente no encontrado"));
         Treatment treatment = mapper.toEntity(dto, patient);
         return mapper.toDTO(treatmentRepository.save(treatment));
@@ -32,7 +32,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         validator.validate(dto);
         Treatment treatment = treatmentRepository.findById(id)
                 .orElseThrow(() -> new TreatmentException("Tratamiento no encontrado"));
-        Patient patient = patientRepository.findById(dto.getPatientId())
+        PatientEntity patient = patientRepository.findById(dto.getPatientId())
                 .orElseThrow(() -> new TreatmentException("Paciente no encontrado"));
         treatment.setDescription(dto.getDescription());
         treatment.setTreatmentDate(dto.getTreatmentDate());

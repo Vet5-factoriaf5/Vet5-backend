@@ -1,19 +1,21 @@
 package org.factoriaf5.happypaws.appointment;
 
-// TODO: Ruta temporal, cambiar por la entidad real cuando esté lista
-import org.factoriaf5.happypaws.temp.Patient;
+import lombok.RequiredArgsConstructor;
+import org.factoriaf5.happypaws.patient.PatientEntity;
+import org.factoriaf5.happypaws.patient.PatientRepository;
 import org.springframework.stereotype.Component;
 
-// Mapper encargado de convertir entre DTOs y Entidad JPA
-// NOTA: ahora mismo usamos un Patient temporal con sólo el ID hasta que yely suba el patient real
 @Component
+@RequiredArgsConstructor
 public class AppointmentMapper {
+
+    private final PatientRepository patientRepository;
 
     // Convierte DTO a entidad JPA
     public AppointmentEntity toEntity(AppointmentDTORequest dto) {
-        Patient patient = new Patient();
-        patient.setId(dto.getPatientId()); 
-        // TODO: cuando tengamos PatientEntity real → usar patientRepository.findById(dto.getPatientId())
+        PatientEntity patient = patientRepository.findById(dto.getPatientId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Paciente con id " + dto.getPatientId() + " no encontrado"));
 
         return AppointmentEntity.builder()
                 .dateTime(dto.getDateTime())

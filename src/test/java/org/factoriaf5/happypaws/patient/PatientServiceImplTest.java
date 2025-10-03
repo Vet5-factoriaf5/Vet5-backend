@@ -9,8 +9,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
-import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 import org.factoriaf5.happypaws.user.UserEntity;
 import org.factoriaf5.happypaws.user.UserService;
 import org.junit.jupiter.api.DisplayName;

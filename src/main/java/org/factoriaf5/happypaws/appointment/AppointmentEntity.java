@@ -1,7 +1,6 @@
 package org.factoriaf5.happypaws.appointment;
+import org.factoriaf5.happypaws.patient.PatientEntity;
 
-// TODO: import temporal sustituir por la entidad definitiva una vez Yely la suba
-import org.factoriaf5.happypaws.temp.Patient;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +20,7 @@ public class AppointmentEntity {
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
+    private PatientEntity patient;
 
     private LocalDateTime dateTime; // Fecha y hora de la cita
 

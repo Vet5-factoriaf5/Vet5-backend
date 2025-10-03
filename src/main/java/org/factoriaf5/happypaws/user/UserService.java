@@ -1,7 +1,6 @@
 package org.factoriaf5.happypaws.user;
 
 import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,5 +17,4 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
-
 }

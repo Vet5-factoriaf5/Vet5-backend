@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws;
+package org.factoriaf5.happypaws.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

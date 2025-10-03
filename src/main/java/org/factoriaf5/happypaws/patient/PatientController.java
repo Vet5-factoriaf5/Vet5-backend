@@ -2,8 +2,6 @@ package org.factoriaf5.happypaws.patient;
 
 import java.util.List;
 
-import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

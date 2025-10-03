@@ -36,7 +36,7 @@ public class PatientEntity {
     private String gender;
 
     @ManyToOne
-    @JoinColumn(name = "tutor_user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity tutor;
 
     private LocalDateTime createdAt;
