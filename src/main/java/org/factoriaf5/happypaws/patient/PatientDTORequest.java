@@ -1,4 +1,4 @@
-package org.factoriaf5.happypaws.patient.dtos;
+package org.factoriaf5.happypaws.patient;
 
 public record PatientDTORequest(
         String name,

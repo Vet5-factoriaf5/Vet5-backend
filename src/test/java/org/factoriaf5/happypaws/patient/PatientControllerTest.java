@@ -10,8 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.time.LocalDateTime;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
+
 import org.factoriaf5.happypaws.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

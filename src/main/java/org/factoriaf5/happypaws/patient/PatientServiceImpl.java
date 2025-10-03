@@ -3,9 +3,6 @@ package org.factoriaf5.happypaws.patient;
 import java.util.List;
 
 import org.factoriaf5.happypaws.implementations.IGenericService;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
-import org.factoriaf5.happypaws.patient.mappers.PatientMapper;
 import org.factoriaf5.happypaws.user.UserEntity;
 import org.factoriaf5.happypaws.user.UserService;
 import org.springframework.stereotype.Service;

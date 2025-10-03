@@ -1,10 +1,6 @@
-package org.factoriaf5.happypaws.patient.mappers;
+package org.factoriaf5.happypaws.patient;
 
 import java.time.LocalDateTime;
-
-import org.factoriaf5.happypaws.patient.PatientEntity;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTORequest;
-import org.factoriaf5.happypaws.patient.dtos.PatientDTOResponse;
 
 public class PatientMapper {
 
